@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <svg width="500" height="500" viewBox="0 0 100 100">
+        <g transform="translate(50 50) scale(0.7) rotate(45) translate(-50 -50)">
+            <rect x="0" y="50" width="50" height="50" fill="#0000FF" stroke="#000" stroke-width="0.5" />
+            <rect x="0" y="0" width="50" height="50" fill="#FF0000" stroke="#000" stroke-width="0.5" />
+            <rect x="50" y="0" width="50" height="50" fill="#FFFF00" stroke="#000" stroke-width="0.5" />
+            <rect x="50" y="50" width="50" height="50" fill="#FFFFFF" stroke="#000" stroke-width="0.5" />
+        </g>
+        <style>
+            .value {
+                font-size: 20px;
+                font-weight: bold;
+                font-family: Arial, sans-serif;
+                text-anchor: middle;
+                dominant-baseline: middle;
+            }
+
+            .dark {
+                fill: #000;
+            }
+
+            .light {
+                fill: #fff;
+            }
+
+            #white {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                width: 100%;
+                color: black;
+                text-align: center;
+            }
+
+            #line {
+                position: relative;
+                display: inline-block;
+            }
+
+            #line::after {
+                content: '';
+                position: absolute;
+                left: -2px;
+                right: -2px;
+                top: 38%;
+                height: 2px;
+                background: black;
+            }
+        </style>
+        <text x="50" y="28" class="value light" id="red"></text>
+        <text x="25" y="52" class="value light" id="blue"></text>
+        <text x="75" y="52" class="value dark" id="yellow"></text>
+        <foreignObject x="30" y="60" width="40" height="25">
+            <div class="value" id="white"></div>
+        </foreignObject>
+    </svg>
+
+    <script>
+        const values = new URLSearchParams(window.location.search);
+
+        if (values.has('red')) document.getElementById('red').textContent = values.get('red');
+        if (values.has('blue')) document.getElementById('blue').textContent = values.get('blue');
+        if (values.has('yellow')) document.getElementById('yellow').textContent = values.get('yellow');
+
+        const whiteValue = values.get('white').toUpperCase();
+        const whiteElement = document.getElementById('white');
+
+        const symbols = {
+            'W': `<span id="line">W</span>`,
+            'BIO': `<image height="100%" src="https://openformlabs.github.io/GeneralDocImages/foreign_files/uxwing/biohazard.svg"/>`,
+            'RAD': `<image height="100%" src="https://openformlabs.github.io/GeneralDocImages/foreign_files/uxwing/edited/radiation.svg"/>`,
+            'POI': `<image height="100%" src="https://openformlabs.github.io/GeneralDocImages/foreign_files/uxwing/skull.svg"/>`
+        };
+
+        if (whiteValue in symbols) {
+            whiteElement.innerHTML = symbols[whiteValue];
+        } else {
+            whiteElement.innerText = whiteValue || "";
+        }
+    </script>
+</body>
+
+</html>

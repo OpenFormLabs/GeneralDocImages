@@ -2,7 +2,7 @@
 <html>
 
 <body>
-    <svg width="500" height="500" viewBox="0 0 100 100">
+    <svg width="500" height="500" viewBox="0 0 100 100" id="svg">
         <g transform="translate(50 50) scale(0.7) rotate(45) translate(-50 -50)">
             <rect x="0" y="50" width="50" height="50" fill="#0000FF" stroke="#000" stroke-width="0.5" />
             <rect x="0" y="0" width="50" height="50" fill="#FF0000" stroke="#000" stroke-width="0.5" />
@@ -28,6 +28,7 @@
 
             #white {
                 display: flex;
+                font-size: 16px;
                 justify-content: center;
                 align-items: center;
                 height: 100%;
@@ -62,25 +63,29 @@
     <script>
         const values = new URLSearchParams(window.location.search);
 
-        if (values.has('red')) document.getElementById('red').textContent = values.get('red');
-        if (values.has('blue')) document.getElementById('blue').textContent = values.get('blue');
-        if (values.has('yellow')) document.getElementById('yellow').textContent = values.get('yellow');
+        document.getElementById('red').textContent = values.get('red') || "";
+        document.getElementById('blue').textContent = values.get('blue') || "";
+        document.getElementById('yellow').textContent = values.get('yellow') || "";
 
-        const whiteValue = values.get('white').toUpperCase();
+        const whiteValue = (values.get('white') || "").toUpperCase();
         const whiteElement = document.getElementById('white');
 
         const symbols = {
+            'GOX': 'G OX',
             'W': `<span id="line">W</span>`,
             'BIO': `<image height="100%" src="https://openformlabs.github.io/GeneralDocImages/foreign_files/uxwing/biohazard.svg"/>`,
             'RAD': `<image height="100%" src="https://openformlabs.github.io/GeneralDocImages/foreign_files/uxwing/edited/radiation.svg"/>`,
             'POI': `<image height="100%" src="https://openformlabs.github.io/GeneralDocImages/foreign_files/uxwing/skull.svg"/>`
         };
 
-        if (whiteValue in symbols) {
-            whiteElement.innerHTML = symbols[whiteValue];
-        } else {
-            whiteElement.innerText = whiteValue || "";
-        }
+        if (whiteValue in symbols) whiteElement.innerHTML = symbols[whiteValue];
+        else whiteElement.innerText = whiteValue || "";
+        if (whiteElement.innerText.length < 5) whiteElement.style.fontSize = ['20px', '18px', '16px', '14px'][whiteElement.innerText.length - 1];
+
+        const SVG = document.getElementById('svg');
+        const size = values.get("size") || "500px";
+        SVG.style.width = size;
+        SVG.style.height = size;
     </script>
 </body>
 
